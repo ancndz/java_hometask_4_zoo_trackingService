@@ -2,6 +2,7 @@ package ru.croc.java.winter.school.zoo;
 
 import ru.croc.java.winter.school.zoo.animal.Animal;
 import ru.croc.java.winter.school.zoo.employee.Employee;
+import ru.croc.java.winter.school.zoo.tracking.TrackingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ public class Zoo {
     private List<Animal> animals;
     /** Сотрудники. */
     private List<Employee> employees;
+    /** Сервис отслеживания. */
+    private TrackingService trackingService;
 
     /**
      * Зоопарк.
@@ -26,6 +29,7 @@ public class Zoo {
         this.title = title;
         animals = new ArrayList<>();
         employees = new ArrayList<>();
+        trackingService = new TrackingService();
     }
 
     /**
@@ -38,6 +42,7 @@ public class Zoo {
         if (!animals.contains(animal) && employees.contains(employee)) {
             animals.add(animal);
             employee.add(animal);
+            trackingService.add(animal);
         } else {
             // TODO что делать
         }
@@ -50,6 +55,7 @@ public class Zoo {
      */
     public void add(Employee employee) {
         employees.add(employee);
+        trackingService.add(employee);
     }
 
     /**
@@ -74,6 +80,7 @@ public class Zoo {
                 employee.remove(animal);
             }
         }
+        trackingService.remove(animal);
         animals.remove(animal);
     }
 
@@ -85,6 +92,7 @@ public class Zoo {
     public void remove(Employee employee) {
         if (employees.contains(employee) && employee.getAnimals().isEmpty()) {
             employees.remove(employee);
+            trackingService.remove(employee);
         } else {
             // TODO учим исключения
         }
@@ -101,6 +109,10 @@ public class Zoo {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public TrackingService getTrackingService() {
+        return trackingService;
     }
 
     @Override

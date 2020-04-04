@@ -1,21 +1,34 @@
 package ru.croc.java.winter.school.zoo.employee;
 
 import ru.croc.java.winter.school.zoo.animal.Animal;
+import ru.croc.java.winter.school.zoo.tracking.location.Location;
+import ru.croc.java.winter.school.zoo.tracking.location.Position;
+import ru.croc.java.winter.school.zoo.tracking.Tracked;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Сотрудник.
  */
-public class Employee {
+public class Employee implements Tracked {
+    private static final String ID_PREFIX = "Employee-";
+    private static int count = 0;
+
+    /** Уникальный номер. */
+    private final String id;
     /** Имя. */
     private String name;
     /** Дата рождения. */
     private LocalDate dateOfBirth;
     /** Подопечные животные. */
     private Set<Animal> animals;
+    /** Журнал местоположения во времени. */
+    private final List<Location> locations;
 
     /**
      * Сотрудник.
@@ -24,9 +37,11 @@ public class Employee {
      * @param dateOfBirth дата рождения
      */
     public Employee(String name, LocalDate dateOfBirth) {
+        this.id = ID_PREFIX + count++;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         animals = new HashSet<>();
+        locations = new ArrayList<>();
     }
 
     /**
@@ -76,5 +91,25 @@ public class Employee {
                 ", dateOfBirth=" + dateOfBirth +
                 ", animals=" + animals +
                 '}';
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void updatePosition(double x, double y) {
+        locations.add(new Location(Position.of(x ,y), LocalDateTime.now()));
+    }
+
+    @Override
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    @Override
+    public Location getCurrentLocation() {
+        return locations.isEmpty() ? null : locations.get(locations.size() - 1);
     }
 }
