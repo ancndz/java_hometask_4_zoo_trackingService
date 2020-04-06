@@ -3,6 +3,7 @@ package ru.croc.java.winter.school.zoo;
 import ru.croc.java.winter.school.zoo.animal.Animal;
 import ru.croc.java.winter.school.zoo.employee.Employee;
 import ru.croc.java.winter.school.zoo.tracking.TrackingService;
+import ru.croc.java.winter.school.zoo.tracking.location.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,10 @@ public class Zoo {
      */
     public Zoo(String title) {
         this.title = title;
-        animals = new ArrayList<>();
-        employees = new ArrayList<>();
-        trackingService = new TrackingService();
+        this.animals = new ArrayList<>();
+        this.employees = new ArrayList<>();
+
+        this.trackingService = new TrackingService();
     }
 
     /**
